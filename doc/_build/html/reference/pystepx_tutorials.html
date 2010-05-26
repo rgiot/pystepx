@@ -1,0 +1,374 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3.4. Tutorials &mdash; pySTEP v1.3.1 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.3.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pySTEP v1.3.1 documentation" href="../index.html" />
+    <link rel="up" title="3. Reference Guide" href="index.html" />
+    <link rel="prev" title="3.3. Genetic Operators" href="pystepx_geneticoperators.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="pystepx_geneticoperators.html" title="3.3. Genetic Operators"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pySTEP v1.3.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">3. Reference Guide</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pystepx.tutorials.Tutorial5">
+<h1>3.4. Tutorials<a class="headerlink" href="#module-pystepx.tutorials.Tutorial5" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pystepx-tutorial-tutorial-tutorial-1-module">
+<h2>3.4.1. <tt class="xref docutils literal"><span class="pre">pystepx.tutorial.Tutorial</span></tt> &#8211; Tutorial 1 module<a class="headerlink" href="#pystepx-tutorial-tutorial-tutorial-1-module" title="Permalink to this headline">¶</a></h2>
+<p>This module contains the <tt class="xref docutils literal"><span class="pre">pystepx.tutorial.Tutorial.Tutorial1</span></tt> class, which manage the first tutorial case.</p>
+<p>Contains all the classes providing the tutorial examples.
+This examples are based on the tutorial of the original pySTEP.</p>
+<dl class="class">
+<dt id="pystepx.tutorials.Tutorial.Tutorial1">
+<em class="property">class </em><tt class="descclassname">pystepx.tutorials.Tutorial.</tt><tt class="descname">Tutorial1</tt><a class="headerlink" href="#pystepx.tutorials.Tutorial.Tutorial1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains all parameters for the evolutionary run, grammar rules, constraints,
+and specifics about the terminal and function set of the trees in tutorial1.
+This example file gather all the settings for a simple polynomial regression
+using one variable x and the following mathematical operators: &#8216;+&#8217;,&#8217;-&#8216;,&#8217;neg&#8217;,&#8217;*&#8217;,&#8217;^2&#8217;(or square),&#8217;cos&#8217;,&#8217;sin&#8217;.
+We try to find a third degree polynomial: x^3 + x^2 + cos(x)
+from 2 sets of testing data (2 different values for x).
+Considering the constraints for building the trees, the root node will only have
+one child, and there will be no need for ADF in the function and terminal set.</p>
+<dl class="method">
+<dt id="pystepx.tutorials.Tutorial.Tutorial1.build_engine">
+<tt class="descname">build_engine</tt><big>(</big><em>functions</em>, <em>terminals</em>, <em>rules</em><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial.Tutorial1.build_engine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the engine</p>
+<p>&#64;param functions: dictionnary of the function set
+&#64;param terminals: dictionnary of the terminals</p>
+<p>&#64;return the generated gp_engine</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pystepx.tutorials.Tutorial.Tutorial1.define_grammar">
+<tt class="descname">define_grammar</tt><big>(</big><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial.Tutorial1.define_grammar" title="Permalink to this definition">¶</a></dt>
+<dd>Define the necessary grammar and returns:
+- the whole function set
+- the whole terminal set
+- the treeRules
+- mapping</dd></dl>
+
+<dl class="method">
+<dt id="pystepx.tutorials.Tutorial.Tutorial1.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial.Tutorial1.run" title="Permalink to this definition">¶</a></dt>
+<dd>Launch the tutorial</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pystepx.tutorials.Tutorial.main">
+<tt class="descclassname">pystepx.tutorials.Tutorial.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function: main</p>
+<p>Launch  the set of tutorials</p>
+</dd></dl>
+
+</div>
+<div class="section" id="pystepx-tutorial-tutorial2-tutorial-2-module">
+<h2>3.4.2. <tt class="xref docutils literal"><span class="pre">pystepx.tutorial.Tutorial2</span></tt> &#8211; Tutorial 2 module<a class="headerlink" href="#pystepx-tutorial-tutorial2-tutorial-2-module" title="Permalink to this headline">¶</a></h2>
+<p>Contains the class managing the tutorial 2</p>
+<dl class="class">
+<dt id="pystepx.tutorials.Tutorial2.Tutorial2">
+<em class="property">class </em><tt class="descclassname">pystepx.tutorials.Tutorial2.</tt><tt class="descname">Tutorial2</tt><a class="headerlink" href="#pystepx.tutorials.Tutorial2.Tutorial2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains all parameters for the evolutionary run, grammar rules, constraints,
+and specifics about the terminal and function set of the trees in tutorial2.</p>
+<p>This example file gather all the settings for a simple polynomial regression
+using this time 2 variables x and y, and adding random integer constants between 1 and 5,
+and the following mathematical operators: &#8216;+&#8217;,&#8217;-&#8216;,&#8217;neg&#8217;,&#8217;*&#8217;,&#8217;^2&#8217;(or square).</p>
+<p>We try to find the following polynomial: x^2+3y+4
+from 5 sets of testing data (5 different values for x and y).</p>
+<p>As Koza said, random constants are the &#8220;skeleton in Genetic Programming closet&#8221;.
+Using them will definitely slow down a search...
+Any suggestions of current alternative strategies solving this problem would be
+highly welcomed :)
+Considering the constraints for building the trees, the root node will only have
+one child, and there will be no need for ADF in the function and terminal set.</p>
+<dl class="method">
+<dt id="pystepx.tutorials.Tutorial2.Tutorial2.build_engine">
+<tt class="descname">build_engine</tt><big>(</big><em>functions</em>, <em>terminals</em>, <em>rules</em><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial2.Tutorial2.build_engine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the engine</p>
+<p>&#64;param functions: dictionnary of the function set
+&#64;param terminals: dictionnary of the terminals</p>
+<p>&#64;return the generated gp_engine</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pystepx.tutorials.Tutorial2.Tutorial2.define_grammar">
+<tt class="descname">define_grammar</tt><big>(</big><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial2.Tutorial2.define_grammar" title="Permalink to this definition">¶</a></dt>
+<dd>Define the necessary grammar and returns:
+- the whole function set
+- the whole terminal set
+- the treeRules
+- defaultFunctionSet,
+- defaultTerminalSet
+- mapping</dd></dl>
+
+<dl class="method">
+<dt id="pystepx.tutorials.Tutorial2.Tutorial2.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial2.Tutorial2.run" title="Permalink to this definition">¶</a></dt>
+<dd>Launch the tutorial</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pystepx.tutorials.Tutorial2.main">
+<tt class="descclassname">pystepx.tutorials.Tutorial2.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial2.main" title="Permalink to this definition">¶</a></dt>
+<dd>Launch  the set of tutorials</dd></dl>
+
+</div>
+<p>Solve the same problem than in Tutorial 3, expect
+that in this case, we use the real Koza ADFs.</p>
+<dl class="class">
+<dt id="pystepx.tutorials.Tutorial3.Tutorial3">
+<em class="property">class </em><tt class="descclassname">pystepx.tutorials.Tutorial3.</tt><tt class="descname">Tutorial3</tt><a class="headerlink" href="#pystepx.tutorials.Tutorial3.Tutorial3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains all parameters for the evolutionary run, grammar rules, constraints,
+and specifics about the terminal and function set of the trees in tutorial3.</p>
+<p>This example file gather all the settings for a &#8216;multiple&#8217; polynomial regression.
+We want to evolve a system of ordered polynomial equations by using the
+mathematical operators: &#8216;+&#8217;,&#8217;*&#8217; and the an ADF.</p>
+<p>The main program must used the adf function and returns the score of two equation systems,
+which we will not child1 and child2 (referring to ADF1 and ADF2 in Tutorial3).</p>
+<p>We try to find the following model being shaped as a system of polynomials:</p>
+<p><a href="#id1"><span class="problematic" id="id2">|</span></a>child1=x+y
+<a href="#id3"><span class="problematic" id="id4">|</span></a>child2=child^3</p>
+<p>from 30 sets of testing data (30 different values for x and y).
+This means the each tree has to be evaluated for every different example,
+so 30 times. There is an alternative solution which we will see in the next tutorial,
+where instead of evaluating a tree 30 times, we will input an array of 30 data in the
+variable leafs of the tree.</p>
+<p>In the original tutorial, the generated ADF have no arguments and return one value (this is not 
+the same kind of ADFs than in Koza books).
+In this tutorial, the ADF is a real function with arguments and which can be called 
+several times with various parameters.</p>
+<dl class="method">
+<dt id="pystepx.tutorials.Tutorial3.Tutorial3.build_engine">
+<tt class="descname">build_engine</tt><big>(</big><em>functions</em>, <em>terminals</em>, <em>rules</em><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial3.Tutorial3.build_engine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the engine</p>
+<p>&#64;param functions: dictionnary of the function set
+&#64;param terminals: dictionnary of the terminals</p>
+<p>&#64;return the generated gp_engine</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pystepx.tutorials.Tutorial3.Tutorial3.define_grammar">
+<tt class="descname">define_grammar</tt><big>(</big><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial3.Tutorial3.define_grammar" title="Permalink to this definition">¶</a></dt>
+<dd>Define the necessary grammar and returns:
+- the whole function set
+- the whole terminal set
+- the treeRules
+- mapping</dd></dl>
+
+<dl class="method">
+<dt id="pystepx.tutorials.Tutorial3.Tutorial3.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial3.Tutorial3.run" title="Permalink to this definition">¶</a></dt>
+<dd>Launch the tutorial</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pystepx.tutorials.Tutorial3.main">
+<tt class="descclassname">pystepx.tutorials.Tutorial3.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial3.main" title="Permalink to this definition">¶</a></dt>
+<dd>Launch  the set of tutorials</dd></dl>
+
+<div class="section" id="pystepx-tutorial-tutorial4-tutorial-4-module">
+<h2>3.4.3. <tt class="xref docutils literal"><span class="pre">pystepx.tutorial.Tutorial4</span></tt> &#8211; Tutorial 4 module<a class="headerlink" href="#pystepx-tutorial-tutorial4-tutorial-4-module" title="Permalink to this headline">¶</a></h2>
+<p>Contains the class managing the tutorial4</p>
+<dl class="class">
+<dt id="pystepx.tutorials.Tutorial4.Tutorial4">
+<em class="property">class </em><tt class="descclassname">pystepx.tutorials.Tutorial4.</tt><tt class="descname">Tutorial4</tt><a class="headerlink" href="#pystepx.tutorials.Tutorial4.Tutorial4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains all parameters for the evolutionary run, grammar rules, constraints,
+and specifics about the terminal and function set of the trees in tutorial4.</p>
+<p>This example file gather all the settings for a &#8216;multiple&#8217; polynomial regression.
+We want to evolve a system of ordered polynomial equations by using the
+mathematical operators: &#8216;+&#8217;,&#8217;*&#8217; and the ADF: ADF1 and ADF2, in the said order.
+an ADF2 branch could then call for an ADF1 terminal, but not the opposite.</p>
+<p>We try to find the following model being shaped as a system of polynomials:</p>
+<p><a href="#id5"><span class="problematic" id="id6">|</span></a>ADF1=x+y
+<a href="#id7"><span class="problematic" id="id8">|</span></a>ADF2=ADF1^3</p>
+<p>from 1 set of 1000 testing data (1000 different values for x and y).</p>
+<p>This time, each tree does not have to be evaluated 1000 times. We will input
+a list of 1000 data points in the variable leafs of the tree. There is not much time
+difference to process 1000 data-points than 5 when we use this trick!</p>
+<p>Considering the constraints for building the trees, the root node will have 2
+children ADF1 and ADF2 (in order), and ADF2 must be able to reuse ADF1 as a
+terminal...</p>
+<dl class="method">
+<dt id="pystepx.tutorials.Tutorial4.Tutorial4.build_engine">
+<tt class="descname">build_engine</tt><big>(</big><em>functions</em>, <em>terminals</em>, <em>rules</em><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial4.Tutorial4.build_engine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the engine</p>
+<p>&#64;param functions: dictionnary of the function set
+&#64;param terminals: dictionnary of the terminals</p>
+<p>&#64;return the generated gp_engine</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pystepx.tutorials.Tutorial4.Tutorial4.define_grammar">
+<tt class="descname">define_grammar</tt><big>(</big><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial4.Tutorial4.define_grammar" title="Permalink to this definition">¶</a></dt>
+<dd>Define the necessary grammar and returns:
+- the whole function set
+- the whole terminal set
+- the treeRules
+- mapping</dd></dl>
+
+<dl class="method">
+<dt id="pystepx.tutorials.Tutorial4.Tutorial4.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial4.Tutorial4.run" title="Permalink to this definition">¶</a></dt>
+<dd>Launch the tutorial</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pystepx.tutorials.Tutorial4.main">
+<tt class="descclassname">pystepx.tutorials.Tutorial4.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial4.main" title="Permalink to this definition">¶</a></dt>
+<dd>Launch  the set of tutorials</dd></dl>
+
+</div>
+<div class="section" id="pystepx-tutorial-tutorial5-tutorial-5-module">
+<h2>3.4.4. <tt class="xref docutils literal"><span class="pre">pystepx.tutorial.Tutorial5</span></tt> &#8211; Tutorial 5 module<a class="headerlink" href="#pystepx-tutorial-tutorial5-tutorial-5-module" title="Permalink to this headline">¶</a></h2>
+<p>Contains all the classes providing the tutorial examples.
+This examples are based on the tutorial of the original pySTEP.</p>
+<dl class="class">
+<dt id="pystepx.tutorials.Tutorial5.Tutorial5">
+<em class="property">class </em><tt class="descclassname">pystepx.tutorials.Tutorial5.</tt><tt class="descname">Tutorial5</tt><a class="headerlink" href="#pystepx.tutorials.Tutorial5.Tutorial5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains all parameters for the evolutionary run, grammar rules, constraints,
+and specifics about the terminal and function set of the trees in tutorial5.</p>
+<p>In this example, we evolve hybrid system: a model containing discrete values
+and logic operators and numerical operations.
+More specifically, we will evolve if_then_else types rules that will determine
+the application of different polynomials...
+from 20 sets of testing data (20 different values for x and y).</p>
+<p>Considering the constraints for building the trees, the root node will have
+3 children, and these will be ordered ADF defining branches (we simply won&#8217;t use ADF terminals nodes)
+describing the structure of the if then else statement.</p>
+<p>The solution found should be the equivalent of this expression:
+if x&gt;y then cos(x) else sin(y)</p>
+<dl class="method">
+<dt id="pystepx.tutorials.Tutorial5.Tutorial5.build_engine">
+<tt class="descname">build_engine</tt><big>(</big><em>functions</em>, <em>terminals</em>, <em>rules</em><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial5.Tutorial5.build_engine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the engine</p>
+<p>&#64;param functions: dictionnary of the function set
+&#64;param terminals: dictionnary of the terminals</p>
+<p>&#64;return the generated gp_engine</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pystepx.tutorials.Tutorial5.Tutorial5.define_grammar">
+<tt class="descname">define_grammar</tt><big>(</big><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial5.Tutorial5.define_grammar" title="Permalink to this definition">¶</a></dt>
+<dd>Define the necessary grammar and returns:
+- the whole function set
+- the whole terminal set
+- the treeRules
+- mapping</dd></dl>
+
+<dl class="method">
+<dt id="pystepx.tutorials.Tutorial5.Tutorial5.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial5.Tutorial5.run" title="Permalink to this definition">¶</a></dt>
+<dd>Launch the tutorial</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pystepx.tutorials.Tutorial5.main">
+<tt class="descclassname">pystepx.tutorials.Tutorial5.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="headerlink" href="#pystepx.tutorials.Tutorial5.main" title="Permalink to this definition">¶</a></dt>
+<dd>Launch  the set of tutorials</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">3.4. Tutorials</a><ul>
+<li><a class="reference external" href="#pystepx-tutorial-tutorial-tutorial-1-module">3.4.1. <tt class="docutils literal"><span class="pre">pystepx.tutorial.Tutorial</span></tt> &#8211; Tutorial 1 module</a></li>
+<li><a class="reference external" href="#pystepx-tutorial-tutorial2-tutorial-2-module">3.4.2. <tt class="docutils literal"><span class="pre">pystepx.tutorial.Tutorial2</span></tt> &#8211; Tutorial 2 module</a></li>
+<li><a class="reference external" href="#pystepx-tutorial-tutorial4-tutorial-4-module">3.4.3. <tt class="docutils literal"><span class="pre">pystepx.tutorial.Tutorial4</span></tt> &#8211; Tutorial 4 module</a></li>
+<li><a class="reference external" href="#pystepx-tutorial-tutorial5-tutorial-5-module">3.4.4. <tt class="docutils literal"><span class="pre">pystepx.tutorial.Tutorial5</span></tt> &#8211; Tutorial 5 module</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="pystepx_geneticoperators.html"
+                                  title="previous chapter">3.3. Genetic Operators</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/reference/pystepx_tutorials.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pystepx_geneticoperators.html" title="3.3. Genetic Operators"
+             >previous</a> |</li>
+        <li><a href="../index.html">pySTEP v1.3.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >3. Reference Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Mehdi Khoury, Romain Giot.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.2. Installing pySTEP &mdash; pySTEP v1.3.1 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.3.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pySTEP v1.3.1 documentation" href="../index.html" />
+    <link rel="up" title="1. Getting Started" href="index.html" />
+    <link rel="next" title="2. Tutorials" href="../tutorial/index.html" />
+    <link rel="prev" title="1.1. pySTEP - an overview" href="overview.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="../tutorial/index.html" title="2. Tutorials"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="1.1. pySTEP - an overview"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pySTEP v1.3.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">1. Getting Started</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installing-pystep">
+<h1>1.2. Installing pySTEP<a class="headerlink" href="#installing-pystep" title="Permalink to this headline">¶</a></h1>
+<p>Since version 1.3.0, pySTEP no more relies on a list of scripts parametrized by the settings.py file.
+It consists of a library build with the distutils framework.</p>
+<div class="section" id="pre-requisite">
+<h2>1.2.1. Pre-requisite<a class="headerlink" href="#pre-requisite" title="Permalink to this headline">¶</a></h2>
+<p>Unlike most Python software, pySTEP required a C compiler to be present on the system.
+This is due to the fact of using Cython to improve speed.
+So, you have to install Cython (<a class="reference external" href="http://docs.cython.org/src/quickstart/install.html">http://docs.cython.org/src/quickstart/install.html</a>), before trying to install pySTEP.</p>
+<p>The easiest way to install Cython is:</p>
+<div class="highlight-sh"><div class="highlight"><pre>easy_install cython
+</pre></div>
+</div>
+</div>
+<div class="section" id="installation">
+<h2>1.2.2. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>To install pySTEP, you need to unpack the archive, enter the directory, and then run:</p>
+<div class="highlight-sh"><div class="highlight"><pre>python setup.py build_ext --inplace
+python setup.py install
+</pre></div>
+</div>
+</div>
+<div class="section" id="testing-the-installation">
+<h2>1.2.3. Testing the Installation<a class="headerlink" href="#testing-the-installation" title="Permalink to this headline">¶</a></h2>
+<p>After having install pySTEP, you can test it with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pystepx.tutorials.Tutorial</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">pystepx</span><span class="o">.</span><span class="n">tutorials</span><span class="o">.</span><span class="n">Tutorial</span><span class="o">.</span><span class="n">Tutorial1</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">1.2. Installing pySTEP</a><ul>
+<li><a class="reference external" href="#pre-requisite">1.2.1. Pre-requisite</a></li>
+<li><a class="reference external" href="#installation">1.2.2. Installation</a></li>
+<li><a class="reference external" href="#testing-the-installation">1.2.3. Testing the Installation</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="overview.html"
+                                  title="previous chapter">1.1. pySTEP - an overview</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="../tutorial/index.html"
+                                  title="next chapter">2. Tutorials</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/quickstart/install.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../tutorial/index.html" title="2. Tutorials"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="1.1. pySTEP - an overview"
+             >previous</a> |</li>
+        <li><a href="../index.html">pySTEP v1.3.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >1. Getting Started</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Mehdi Khoury, Romain Giot.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>
