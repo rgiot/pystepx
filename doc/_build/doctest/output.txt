@@ -1,8 +1,0 @@
-Results of doctest builder run on 2010-04-15 20:33:14
-=====================================================
-
-Doctest summary
-===============
-    0 tests
-    0 failures in tests
-    0 failures in setup code
