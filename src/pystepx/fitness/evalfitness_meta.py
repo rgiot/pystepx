@@ -17,9 +17,9 @@ from pystepx.tree.treeconstants import ROOT_BRANCH, \
                                     ADF_DEFINING_BRANCH, \
                                     VARIABLE_LEAF, \
                                     CONSTANT_LEAF, \
-				    ADF_LEAF, \
-            KOZA_ADF_DEFINING_BRANCH, \
-            KOZA_ADF_FUNCTION_BRANCH
+                                    ADF_LEAF, \
+                                    KOZA_ADF_DEFINING_BRANCH, \
+                                    KOZA_ADF_FUNCTION_BRANCH
 from pystepx.tree.treeconstants import NODE_TYPE, \
                                     NODE_NAME, \
                                     NB_CHILDREN
@@ -39,6 +39,7 @@ class FitnessTreeEvaluation_meta(pystepx.fitness.evalfitness.FitnessTreeEvaluati
         """
 
         root = tree[0]
+        #Assume that each extra node is an ADF (main program at the end)
         nb_adfs = root[NB_CHILDREN] -1
 
         #Build each adf function
@@ -71,21 +72,23 @@ class FitnessTreeEvaluation_meta(pystepx.fitness.evalfitness.FitnessTreeEvaluati
 
         #Get the params name
         adf = tree[0]
+        #assert adf[NODE_TYPE] == KOZA_ADF_DEFINING_BRANCH
+
         name = adf[NODE_NAME]
         params = self._get_parameters_for_adf(name)
         nb_params = len(params)
 
-
         def adf_call(inputs):
             #Populate parameters
             assert len(inputs) == nb_params
+
 
             #Override terminal values
             for i in xrange(nb_params):
                 self.__terminals__[params[i]] = inputs[i]
 
             #execute the function
-            return self.EvalTreeForOneListInputSet(tree)
+            return self.EvalTreeForOneListInputSet(tree[1])
 
 
         #print 'This adf has ' + str(nb_params) + 'parameters'
@@ -98,5 +101,6 @@ class FitnessTreeEvaluation_meta(pystepx.fitness.evalfitness.FitnessTreeEvaluati
         This list of parameters is stored in the terminals list
         """
 
-        return sorted([val for val in self.__terminals__  if val.startswith("%s_PARAM" % adf_name)])
+        return sorted([val[1:] for val in self.__terminals__  if \
+            val.startswith("_%s_PARAM" % adf_name)])
 

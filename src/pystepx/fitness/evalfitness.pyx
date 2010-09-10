@@ -42,7 +42,8 @@ from pystepx.tree.treeconstants import ROOT_BRANCH, \
                                     CONSTANT_LEAF, \
 				    ADF_LEAF, \
             KOZA_ADF_DEFINING_BRANCH, \
-            KOZA_ADF_FUNCTION_BRANCH
+            KOZA_ADF_FUNCTION_BRANCH, \
+            KOZA_ADF_PARAMETER
 
 #TODO Cleanup this module and move specific tutorial code elsewhere
 
@@ -73,6 +74,14 @@ class FitnessTreeEvaluation(object):
         Set the function set
         """
         self.__functions__ =  functions
+
+    def get_terminals(self):
+        """Returns the terminals."""
+        return self.__terminals__
+
+    def get_functions(self):
+        """Returns the functions."""
+        return self.__functions__
 
     def check_configuration(self):
         """
@@ -142,55 +151,83 @@ class FitnessTreeEvaluation(object):
         Function:  EvalTreeForOneInputSet
         =================================
         Function used to evaluate a tree by pluggin in
-        one list of values (one list of data points)
- 
+        one list of values (one list of data points).
+        Works with Koza ADF
+
         @param my_tree: the nested list representing a tree
         @return: the fitness of the tree for this set of values
-        """ 
+        """
+
+
         resultStack = deque()
         adfDict = {}
+
         # examine every node in the tree in pre-order taversal
         # (leaves first and then branches)
         for elem in PostOrder_Search(my_tree):
+
             # if the node is a leaf (variable, or constant),
             # add its value to the result stack
-            if elem[0] == 3:
-                resultStack.append(self.__terminals__[elem[2]])
-                
-            elif elem[0] == 4:
-                resultStack.append(self.__terminals__[elem[2]])
+            if elem[NODE_TYPE] == VARIABLE_LEAF or \
+               elem[NODE_TYPE] == CONSTANT_LEAF or \
+               elem[NODE_TYPE] == KOZA_ADF_PARAMETER:
+                resultStack.append(self.__terminals__[elem[NODE_NAME]])
+
             # if the node is a function with n arguments, pop the result stack
             # n times. Get these popped elemnts as arguments for the function,
             # and replace the top of the stack by the result of the function
-            elif elem[0] == 1:
-                nb= elem[1]
-                name = elem[2]
+            elif elem[NODE_TYPE] == FUNCTION_BRANCH:
+                nb = elem[NB_CHILDREN]
+                name = elem[NODE_NAME]
                 tempResult = deque()
-                for i in xrange(0,nb):
+                for i in xrange(0, nb):
                     tempResult.append(resultStack.pop())
                 resultStack.extend(map(self.__functions__[name],[tempResult]))
+
             # if the node is an ADF branch, add the top of the stack to
             # the ADF dictionary
-            elif elem[0] == 2:
+            elif elem[NODE_TYPE] == ADF_DEFINING_BRANCH:
                 adfDict[elem[2]] = resultStack[-1]
+
             # if the node is an ADF terminal, add the corresponding ADF
             # branch value available in the dictionary to the result stack
-            elif elem[0] == 5:
+            elif elem[NODE_TYPE] == ADF_LEAF:
                 if elem[2] not in adfDict:
                     print 'error in tree', my_tree
                 resultStack.append(adfDict[elem[2]])
+
             # if the node is a root, apply the root function to all
             # direct children and return the result.
-            elif elem[0]==0:
-                name = elem[2]
+            elif elem[NODE_TYPE] == ROOT_BRANCH:
+                name = elem[NODE_NAME]
                 tempResult=[]
                 while resultStack:
                     tempResult.append(resultStack.popleft())
                 resultStack.extend(map(self.__functions__[name],[tempResult]))
+
+            # We are calling a Koza adf
+            elif elem[NODE_TYPE] == KOZA_ADF_FUNCTION_BRANCH:
+
+                name = elem[NODE_NAME]
+                nb = elem[NB_CHILDREN]
+
+                #Get previously computed args
+                tempResult = deque()
+                for i in xrange(0, nb):
+                    tempResult.append(resultStack.pop())
+
+                resultStack.extend(map(self.__functions__[name],[tempResult]))
+
+
+            else:
+                print 'We do not know this node !'
+                print elem
+                quit()
+
         return resultStack[0]
 
 
-  
+
     def compile_tree(self, my_tree, one_input_set=True):
         """
         Function:  compile_tree
