@@ -11,7 +11,6 @@ Contains the class managing the tutorial4
 
 # AUTHOR Romain Giot <romain.giot@ensicaen.fr>
 
-import psyco
 
 import random
 import logging
@@ -31,8 +30,6 @@ import pystepx.tutorials.basetut as basetut
 
 
 
-
-psyco.profile()
 
 class Tutorial4(basetut.BaseTutorial):
     """

@@ -89,7 +89,7 @@ cdef class BaseEvolver(object):
     cdef public float _crossover_prob, _mutation_prob, _prob_selection, _fitness_criterion, _current_best_fitness
     cdef public str _db_name__
     cdef public str _buildmethod
-    cdef public bool __Substitute_Mutation, _start_from_scratch_, __low_memory_footprint__
+    cdef public bint __Substitute_Mutation, _start_from_scratch_, __low_memory_footprint__
 
     def __init__( self,
                   int popsize = 200,
@@ -177,7 +177,7 @@ cdef class BaseEvolver(object):
         """
         self.__rules__ = rules
 
-    cpdef _set_start_from_scratch(self, bool value):
+    cpdef _set_start_from_scratch(self, bint value):
         """
         Set if we need to restart from scratch.
         Called by pySTEP.PySTEP.
@@ -342,7 +342,7 @@ cdef class BaseEvolver(object):
 
 
 
-    cpdef bool is_evolution_ended(self):
+    cpdef bint is_evolution_ended(self):
         """
         Look if the evolution is ended, because:
          - the maximum generation is get
@@ -523,7 +523,7 @@ cdef class BaseEvolver(object):
         cdef int nb_iter = 0
         cdef float result_fitness
         cdef long o_id
-        cdef bool same_tree
+        cdef bint same_tree
 
         cdef list my_tree, my_tree_mapping
         cdef int my_treedepth

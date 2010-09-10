@@ -38,9 +38,6 @@ from pystepx.geneticoperators.abstractoperator import AbstractGeneticOperator
 cimport abstractoperator
 from pystepx.tree.treeconstants import *
 
-import psyco
-psyco.profile()
-
 cdef class CrossoverOperator(abstractoperator.AbstractGeneticOperator):
     """
     Embed all crossover related operations.
@@ -72,7 +69,7 @@ cdef class CrossoverOperator(abstractoperator.AbstractGeneticOperator):
         assert self.__crossover_mapping__ is not None, \
                 "You have to specify a crossover mapping"
 
-    cpdef set_strongly_typed_crossover_degree(self, bool value):
+    cpdef set_strongly_typed_crossover_degree(self, bint value):
         """
         """
         self.__strongly_typed_crossover_degree__ = value
@@ -120,7 +117,7 @@ cdef class CrossoverOperator(abstractoperator.AbstractGeneticOperator):
         cdef tuple firstnode_p1, firstnode_p2
         cdef str subtree1_parent_s, subtree2_parent_s
         cdef list context_p1, context_p2
-        cdef bool frag1_leaf_compatible_p2, frag2_leaf_compatible_p1, frag1_branch_compatible_p2, frag2_branch_compatible_p1
+        cdef bint frag1_leaf_compatible_p2, frag2_leaf_compatible_p1, frag1_branch_compatible_p2, frag2_branch_compatible_p1
         cdef list frag1, frag2
         cdef str temp1, temp2
 

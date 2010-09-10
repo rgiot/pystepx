@@ -6,7 +6,7 @@
 """
 writepop
 ========
-Contains all classes used to write and extract individuals and populations 
+Contains all classes used to write and extract individuals and populations
 on the SQLite database.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -147,7 +147,7 @@ cdef class BaseWritePop(object):
 
 
 
-    cpdef add_to_initial_population(self, list tree, float fitness, str tablename, bool commit=False):
+    cpdef add_to_initial_population(self, list tree, float fitness, str tablename, bint commit=False):
         """Add the individual to the initial population.
 
         @param tree: tree to add
@@ -223,7 +223,7 @@ cdef class BaseWritePop(object):
         self.flush()
 
 
-    cpdef get_individual(self, str tablename, int o_id, bool extract=False):
+    cpdef get_individual(self, str tablename, int o_id, bint extract=False):
         """Returns an individual.
 
         @param tablename: Source table
@@ -255,7 +255,7 @@ cdef class BaseWritePop(object):
 
             return myresult, my_tree, my_tree_mapping, my_treedepth, my_evaluated, my_fitness
 
-    cpdef get_best_individual(self, str tablename, bool extract=False):
+    cpdef get_best_individual(self, str tablename, bint extract=False):
         """Returns the best individual.
 
         @param tablename: Source table

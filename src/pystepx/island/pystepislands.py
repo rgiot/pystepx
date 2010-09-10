@@ -247,7 +247,7 @@ class MigrationOperator(object):
         :param destination: island destination id
         """
 
-	logging.info('Send trees')
-	logging.debug(trees)
+        logging.info('Send trees')
+        logging.debug(trees)
         self._mec.push({'new_trees': trees}, targets=[destination])
         self._mec.execute('gp_engine.__evolver__.add_new_trees(new_trees);', targets=[destination])

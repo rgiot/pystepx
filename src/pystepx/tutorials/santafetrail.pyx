@@ -106,7 +106,7 @@ cdef class Ant(object):
 
         self._eat_food_if_exists()
 
-    cpdef bool has_energy_left(self):
+    cpdef bint has_energy_left(self):
         """Look if the ant has energy left.
         """
 

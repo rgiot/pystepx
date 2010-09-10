@@ -32,8 +32,11 @@ MIN = 1
 MAX = 200
 NB_EXAMPLES = 10
 
-import psyco
-psyco.profile()
+try:
+    import psyco
+    psyco.profile()
+except ImportError:
+    pass
 
 def _root_branch(inputs):
     """Return the input."""
