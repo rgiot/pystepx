@@ -82,7 +82,7 @@ class DrawTree(object):
       if    node[0] == 3 : #input
         G.add_node( indice, label=node[2], shape='circle' )
       elif  node[0] == 4 : #const
-        G.add_node( indice, label="1/"+node[2][1:],shape='octagon' )
+        G.add_node( indice, label=node[2],shape='octagon' )
       elif  node[0] == 0 : #root
         G.add_node( indice, label=node[2], shape='diamond' )
       else:
