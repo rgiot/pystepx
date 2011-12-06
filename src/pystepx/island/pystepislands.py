@@ -34,9 +34,15 @@ import logging
 import numpy as np
 from copy import copy
 
-from IPython.kernel import client
+from IPython.parallel import Client
+import IPython
 
 import pystepx.pySTEPX
+
+
+
+if IPython.__version__ < 0.11:
+    raise Error("Wrong Ipython version")
 
 class PySTEPXIsland(object):
     """
@@ -69,9 +75,9 @@ class PySTEPXIsland(object):
         self._db_path = db_path
 
         #Configure multiengine client
-        self._mec = client.MultiEngineClient()
-        assert len(self._mec.get_ids()) == nb_islands, "Number of servers and required islands different %d/%d" %(len(self._mec.get_ids()),nb_islands)
-        self._mec_ids = self._mec.get_ids()
+        self._rc = Client()
+        assert len(self._rc.ids) == nb_islands, "Number of servers and required islands different %d/%d" %(len(self._rc.ids),nb_islands)
+        self._rc_ids = self._rc.ids
 
         self.__init_script__ = init_script
         self.set_migration_operator(MigrationOperator())
@@ -88,19 +94,28 @@ class PySTEPXIsland(object):
     def __parametrize__(self):
         """
         Do all the necessary parametrization of the objects.
+
+        On each Island : execute the initilisation script.
+        This script must create grammar and so on.
+
+        On each island, configure the database name.
+
+        Configure parallel objects.
+
         """
 
         #Set path XXX change that
-        self._mec.execute(self.__init_script__)
+        print logging.info(self.__init_script__)
+        self._rc[:].execute(self.__init_script__, block=True)
 
-        self.__migration_operator__.set_mec( self._mec)
+        self.__migration_operator__.set_rc( self._rc)
         self.__migration_operator__.set_nb_islands( self._nb_islands)
 
         #Set the right db name for each island
         for i in range(self._nb_islands):
             db_name = self._db_path % (i+1)
             logging.debug( '%d => %s' % ( i, db_name))
-            self._mec.execute("gp_engine.set_db_name('%s')" %db_name, targets=[i])
+            self._rc[i].execute("gp_engine.set_db_name('%s')" %db_name)
 
     def evolve(self):
         """Launch the evoluation process.
@@ -111,20 +126,21 @@ class PySTEPXIsland(object):
         #Configure properly each island
         self.__parametrize__()
 
-        #Launch evolution
-        self._mec.execute("gen = gp_engine.sequentially_evolve()", \
-                targets=range(self._nb_islands))
+        # Get evolution generator of each island
+        self._rc[:].execute("gen = gp_engine.sequentially_evolve()", block=True)
+
+        # Loop over all the sessions
         i = 0
         while True:
-	    logging.info('Launch generation evolution')
+            logging.info('Launch generation evolution')
+
             #Do generation computing
-            self._mec.execute("chosen = gen.next()", \
-                    targets=range(self._nb_islands))
+            self._rc[:].execute("chosen = gen.next()")
 
             #Print best individual
-	    logging.info('Get best individuals')
-            self._mec.execute("best = gp_engine.get_best_individual()")
-            bests = self._mec['best']
+            logging.info('Get best individuals')
+            self._rc[:].execute("best = gp_engine.get_best_individual()")
+            bests = self._rc[:]['best']
 
             print "Generation %d" % i
             print "="*15
@@ -138,13 +154,13 @@ class PySTEPXIsland(object):
 
             logging.info('Test if end of generation')
             #Test if the process is finished
-            self._mec.execute('end=gp_engine.__evolver__.is_evolution_ended()',
-                    targets=range(self._nb_islands))
-            if np.any( self._mec['end']):
+            self._rc[:].execute('end=gp_engine.__evolver__.is_evolution_ended()')
+
+            if np.any( self._rc[:]['end']):
                 break
 
             #Operate the migration
-	    logging.info('Launch migration process')
+            logging.info('Launch migration process')
             self.__migration_operator__.manage_migration()
 
             #loop again
@@ -170,12 +186,12 @@ class MigrationOperator(object):
 
         self.set_migration_probability(0.02)
         self.set_nb_islands(0)
-        self.set_mec(None)
+        self.set_rc(None)
         self._move_east = []
         self._move_west = []
 
-    def set_mec(self, mec):
-        self._mec = mec
+    def set_rc(self, mec):
+        self._rc = mec
 
     def set_migration_probability(self, prob):
         """Set the migration probability.
@@ -204,7 +220,9 @@ class MigrationOperator(object):
         self.replace_individuals()
 
         #Check popsize evolution
-        self._mec.execute('nb=gp_engine.__evolver__.get_real_popsize()')
+        self._rc[:].execute('nb=gp_engine.__evolver__.get_real_popsize()',
+                            block=True)
+
 
     def select_and_remove_individuals(self):
         """
@@ -213,31 +231,40 @@ class MigrationOperator(object):
         """
         logging.info('Get individuals from islands')
 
+        # Build the command list
         actions = [ \
 "move_east = gp_engine.__evolver__.select_and_remove_individuals(%f);" % self._prob,
 "move_west = gp_engine.__evolver__.select_and_remove_individuals(%f);" % self._prob,
 ]
+
+        # Launch the command list
         for action in actions:
-            self._mec.execute( action, targets=range(self._nb_islands))
-        self._move_east = self._mec['move_east']
-        self._move_west = self._mec['move_west']
+            self._rc[:].execute( action, block=True)
+
+        # Store the moving individuals
+        self._move_east = self._rc[:]['move_east']
+        self._move_west = self._rc[:]['move_west']
 
 
     def replace_individuals(self):
         """
         For each island, put its migrant in another island.
         """
+
+
         logging.info('Set new individuals in other islands')
         for island_source in range(self._nb_islands):
+
             #move to east
             island_destination = (island_source + 1) % self._nb_islands
-            logging.info('%d => %d' % (island_source, island_destination))
-            self._move_from_to(self._mec['move_east'][island_source], island_destination)
+            logging.info('Move from %d to %d' % (island_source, island_destination))
+            self._move_from_to(self._rc[island_source]['move_east'], island_destination)
 
             #move to west
             island_destination = (island_source - 1) % self._nb_islands
-            logging.info('%d => %d' % (island_source, island_destination))
-            self._move_from_to(self._mec['move_west'][island_source], island_destination)
+            logging.info('Move from %d to %d' % (island_source, island_destination))
+            self._move_from_to(self._rc[island_source]['move_west'], island_destination)
+
 
     def _move_from_to(self, trees, destination):
         """
@@ -247,7 +274,10 @@ class MigrationOperator(object):
         :param destination: island destination id
         """
 
+        print "Move %d trees to %d " %( len(trees), destination)
+
         logging.info('Send trees')
         logging.debug(trees)
-        self._mec.push({'new_trees': trees}, targets=[destination])
-        self._mec.execute('gp_engine.__evolver__.add_new_trees(new_trees);', targets=[destination])
+
+        self._rc[destination]['new_trees'] =  trees
+        self._rc[destination].execute('gp_engine.__evolver__.add_new_trees(new_trees);')
