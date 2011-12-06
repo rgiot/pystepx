@@ -104,7 +104,7 @@ ideal_results = []
 for nb in xrange(nb_eval):
     ideal_results.append([all_x[nb]**3 + all_x[nb]**2 + math.cos(all_x[nb])])
 
-evolve = evolver.DistributedEvolver(popsize=500, crossover_prob=0.25,
+evolve = evolver.DistributedEvolver(popsize=50, crossover_prob=0.25,
         mutation_prob=0.25)
 
 gp_engine = PySTEPX()

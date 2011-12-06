@@ -27,13 +27,11 @@ class Tutorial1Island(object):
         """
 
         #Launch cluster
-        self._process = subprocess.Popen("ipcluster local -n 4", shell=True, stdout=subprocess.PIPE)
+        self._process = subprocess.Popen("ipcluster start --n=4", shell=True, stdout=subprocess.PIPE)
         time.sleep(10)
 
 
-        init_script = """
-from pystepx.tutorials.functions_tutorial_island import *;
-        """
+        init_script = """from pystepx.tutorials.functions_tutorial_island import *;"""
 
         self._pystepx = PySTEPXIsland(nb_islands=4, init_script=init_script)
 
@@ -47,12 +45,12 @@ def main():
 
     Launch  the set of tutorials
     """
-    logging.basicConfig(level=logging.ERROR)
+    logging.basicConfig(level=logging.debug)
 
     logging.info('Launch tutorial 1 islands')
     t = Tutorial1Island()
     t.run()
-    t._process.kill()
+    subprocess.Popen("ipcluster stop", shell=True, stdout=subprocess.PIPE)
 
 
 if __name__ == "__main__":
