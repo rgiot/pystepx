@@ -98,6 +98,8 @@ class Evolver(pystepx.baseevolver.BaseEvolver):
 
         self._con.close()
 
+  
+
     def run_sequentially(self, verbose=True, print_tree=True):
         """Run the evolution and stops yield each generation.
         The process never ends. It's up to the caller to ends its.

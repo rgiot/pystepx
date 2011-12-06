@@ -18,6 +18,7 @@ THE SOFTWARE.
 http://www.opensource.org/licenses/mit-license.html
 @contact: mehdi.khoury at gmail.com
 
+@author: Romain Giot
 """
 
 from collections import deque
@@ -59,7 +60,7 @@ class FitnessTreeEvaluation(object):
         """
         @param gp_engine: Genetic programming engine.
         """
-        #XXX Si if better to store gp_engine ?
+        #XXX See if better to store gp_engine ?
         self.__terminals__ = None
         self.__functions__ = None
 
@@ -415,7 +416,7 @@ class FitnessTreeEvaluation(object):
         Function used to evaluate a tree by pluggin in
         several sets of values.
 
-        Instread of interpreting each time the tree, it compile it and evaluate
+        Instead of interpreting each time the tree, it compile it and evaluate
         it.
 
         @param my_tree: the nested list representing a tree
@@ -448,6 +449,34 @@ class FinalFitness(object):
         self.__nb_eval__        = nb_eval
         self.__ideal_results__  = ideal_results
 
+    
+    def ClassificationFitness(self, intermediate_outputs):
+        """
+        Function:  ClassificationFitness
+        ================================
+
+        Compute the classification tree performance.
+        For each possible label, compute the recognition rate
+        The final fitness is the mean error of each possible label
+
+        @param intermediate_outputs: the fitnesses of the tree over several sets of
+        values
+        @return: global fitness
+        """
+        import numpy as np
+
+        intermediate_outputs = np.array(intermediate_outputs)
+
+        error_rates = []
+        for label in np.unique(self.__ideal_results__):
+            idx = self.__ideal_results__ == label
+            error_rates.append(np.mean(intermediate_outputs[idx] != label))
+
+        return np.mean(error_rates)
+
+
+    
+    
     def FinalFitness(self, intermediate_outputs):
         """
         Function:  FinalFitness

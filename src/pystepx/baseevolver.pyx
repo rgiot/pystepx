@@ -2,10 +2,8 @@
 
 
 """
-:mod:`pystepx.basevolver` -- Optimized evolving
+:mod:`pystepx.baseevolver` -- Optimized evolving
 ===============================================
-
-Contains code which can be compiled by cython
 
 This module contains the methods to start and finish a complete evolutionary
 run.  The present version can run strongly-typed  Koza-based GP using tournament
@@ -26,6 +24,7 @@ http://www.opensource.org/licenses/mit-license.html
 @contact: mehdi.khoury at gmail.com
 
 """
+# TODO try to parallelize here
 
 import gc
 import os
@@ -34,11 +33,13 @@ import pprint
 import math
 import logging
 import copy
+import numpy as np
+
 
 from pystepx.geneticoperators import selection, crossutil
 from pystepx.tree import buildtree
 import pystepx.writepop as writepop
-import numpy as np
+
 cimport numpy as np
 
 
@@ -87,9 +88,27 @@ cdef class BaseEvolver(object):
 
     cdef public int _popsize, _mindepth, _maxdepth, _max_nb_runs, _size, _last_generation
     cdef public float _crossover_prob, _mutation_prob, _prob_selection, _fitness_criterion, _current_best_fitness
-    cdef public str _db_name__
+    cdef public str __db_name__
     cdef public str _buildmethod
-    cdef public bint __Substitute_Mutation, _start_from_scratch_, __low_memory_footprint__
+    cdef public list _tablename
+    cdef public bint __Substitute_Mutation, 
+    cdef public  _start_from_scratch_
+    cdef public bint  __low_memory_footprint__
+
+    cdef public tuple _root_node
+    cdef public list _new_pop
+    cdef public list trees
+
+    cdef public __FitnessFunction
+    cdef public __mutator__
+    cdef public __crossover_operator__
+    cdef public __end_of_generation_handler__
+
+    cdef public _con
+    cdef public _selected_table
+
+    # Grammar of the trees
+    cdef public dict __rules__
 
     def __init__( self,
                   int popsize = 200,
@@ -109,6 +128,11 @@ cdef class BaseEvolver(object):
         Initialize the evolution object with the various parameters
         """
 
+        assert popsize > size, \
+                "Population size (%d) cannot be inferior to size of tournament (%d)" % (popsize, size)
+
+        self._set_start_from_scratch( False)
+
         #Store parameters usefull after
         self._popsize     = popsize
         self._root_node   = root_node
@@ -122,11 +146,11 @@ cdef class BaseEvolver(object):
         self._size                = size
         self._prob_selection      = prob_selection
 
-        self._db_name__              = dbname
+        self.__db_name__              = dbname
 
         self._tablename = []
         self._new_pop = []
-        self._trees   = []
+        self.trees   = []
         self.__Substitute_Mutation = False
         self.__FitnessFunction = self.__default_fitness__
 
@@ -136,7 +160,6 @@ cdef class BaseEvolver(object):
         self._selected_table = None
         self._current_best_fitness = 0
 
-        self._start_from_scratch_ = False
         self._last_generation = -1
 
     def _set_low_memory_footprint(self, value):
@@ -177,11 +200,12 @@ cdef class BaseEvolver(object):
         """
         self.__rules__ = rules
 
-    cpdef _set_start_from_scratch(self, bint value):
+    def _set_start_from_scratch(self, bint value):
         """
         Set if we need to restart from scratch.
         Called by pySTEP.PySTEP.
         """
+        assert value in [True, False]
         self._start_from_scratch_ = value
 
     def __default_fitness__(self, var):
@@ -240,6 +264,7 @@ cdef class BaseEvolver(object):
         method  = getattr(buildtree.BuildTree(self.__rules__), self._buildmethod)
 
         if not self.__low_memory_footprint__:
+
             #Classical way of creating
             while i < self._popsize:
                 # create a tree individual
@@ -490,6 +515,7 @@ cdef class BaseEvolver(object):
         logging.info('Apply reproduction')
         self._do_reproduction_for(selected, tablename, tablename2)
 
+        # Apply cross over
         logging.info('Apply cross-over')
         selected = selection.TournamentSelectDBSeveral(
                       int(crossover_size),
@@ -612,8 +638,16 @@ cdef class BaseEvolver(object):
         cdef int my_tree1depth, my_tree2depth
         cdef float my_fitness1,my_fitness2
 
+        # Get the list of trees to treat
         trees = self._popwriter.get_individuals_iterator(tablename, cross, extract=True)
+
+        # Loop over all trees and apply crossover
+        idx_parent = -1 # pointer to obtain real o_id
         for (myresult1, cp_my_tree1, cp_my_tree1_mapping, my_tree1depth, my_evaluated1, my_fitness1)  in trees:
+
+            idx_parent = idx_parent + 1
+            # TODO remove this ugly management with idw_parent
+
 
             # select the second parent using tournament selection
             parent2 = selection.TournamentSelectDBSeveral(2, 7, 0.8, db_list, unique=True)
@@ -626,8 +660,9 @@ cdef class BaseEvolver(object):
 #                elem2 = parent2[0]
 
 
-            
+            o_id = cross[idx_parent][0]
             o_id2 = parent2[0][0]
+
             (myresult2,
                     cp_my_tree2,
                     cp_my_tree2_mapping,
@@ -639,9 +674,10 @@ cdef class BaseEvolver(object):
             cs_evaluated = 1
             cs = ([0, 0, 0, 0],)
             i = 0
+
             #Try the crossover at maximum 100 times
             while cs[0] != [1, 1, 1, 1] and i < 100 :
-       
+
                 cs = self.__crossover_operator__.Koza1PointCrossover(
                                   self._maxdepth,
                                   cp_my_tree1,
@@ -712,3 +748,4 @@ cdef class BaseEvolver(object):
             self._write_computed_population_to_db(tablename2)
 
 
+   
