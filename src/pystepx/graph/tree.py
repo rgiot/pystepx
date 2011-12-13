@@ -6,8 +6,11 @@ Display tree by using graphviz.
 
 # AUTHOR Romain Giot <romain.giot@ensicaen.fr>
 
+try:
+    import pygraphviz as pgv
+except:
+    pass
 
-import pygraphviz as pgv
 from types import ListType
 
 
