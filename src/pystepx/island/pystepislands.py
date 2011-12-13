@@ -58,6 +58,8 @@ class PySTEPXIsland(object):
     def __init__(self, nb_islands=3, init_script="", db_path='/tmp/pySTEPX%d.sqlite'):
         """
         Initialize the global manager.
+        Get the reference to the island processes, but does not launch
+        initialisation script.
 
         :param nb_islands: the number of islands in which the evolution occur
         :param init_script: script to launch on each insland

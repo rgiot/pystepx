@@ -48,6 +48,11 @@ from pystepx.tree.treeconstants import ROOT_BRANCH, \
 
 #TODO Cleanup this module and move specific tutorial code elsewhere
 
+
+
+
+
+
 class FitnessTreeEvaluation(object):
     """
     Class: FitnessEvaluation
@@ -435,6 +440,7 @@ class FitnessTreeEvaluation(object):
                         'WrongValues':WrongValues
                     }))
         return results
+
 
 
 class FinalFitness(object):

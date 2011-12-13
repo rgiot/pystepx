@@ -90,7 +90,7 @@ cdef class BuildTree(object):
             logging.debug( ''.join(['Child nb', str(child_nb)]))
             logging.debug( ''.join(['Set for the child', str(self.__rules__[parent[2]][child_nb])]))
             logging.debug( ''.join(['Leaf set for the child', str(self.__rules__[parent[2]][child_nb][1])]))
-            raise NoTerminalSet, "Empty terminal set! This parent has no leaf node to choose from!"
+            raise NoTerminalSet, "Empty terminal set! This parent has no leaf  node to choose from!" + str(parent)
 
         return random_leaf_child
 

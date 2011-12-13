@@ -52,7 +52,7 @@ ext_modules = [
    ]
 
 setup(name='pystepx',
-      version='1.0.3',
+      version='1.0.4',
       description='Python Strongly Typed Distributed Genetic Programming Library',
       author='Romain Giot/Mehdi Khoury',
       author_email='romain.giot@ensicaen.fr',
