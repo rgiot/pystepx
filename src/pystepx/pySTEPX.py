@@ -133,6 +133,10 @@ class PySTEPX(object):
         """
         self.__evolver__ = evolver
 
+    def get_evolver(self):
+        """Returns teh evolver."""
+        return self.__evolver__
+
     def __parametrize__(self):
         """
         Do all the necessary parametrization of the objects.

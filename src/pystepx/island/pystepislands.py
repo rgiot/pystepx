@@ -235,17 +235,21 @@ class MigrationOperator(object):
 
         # Build the command list
         actions = [ \
-"move_east = gp_engine.__evolver__.select_and_remove_individuals(%f);" % self._prob,
-"move_west = gp_engine.__evolver__.select_and_remove_individuals(%f);" % self._prob,
+"move_east, nb_trees_east = gp_engine.__evolver__.select_and_remove_individuals(%f);" % self._prob,
+"move_west, nb_trees_west = gp_engine.__evolver__.select_and_remove_individuals(%f);" % self._prob,
 ]
 
-        # Launch the command list
+        # Launch the command list on each island at the same time
         for action in actions:
             self._rc[:].execute( action, block=True)
 
-        # Store the moving individuals
+        # Store the moving individuals of each individual
         self._move_east = self._rc[:]['move_east']
         self._move_west = self._rc[:]['move_west']
+
+        self._nb_trees_east = self._rc[:]['nb_trees_east']
+        self._nb_trees_west = self._rc[:]['nb_trees_west']
+
 
 
     def replace_individuals(self):
@@ -276,7 +280,6 @@ class MigrationOperator(object):
         :param destination: island destination id
         """
 
-        print "Move %d trees to %d " %( len(trees), destination)
 
         logging.info('Send trees')
         logging.debug(trees)

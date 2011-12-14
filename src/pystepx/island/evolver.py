@@ -28,6 +28,7 @@ Specialized evolver in the case of distributed GP
 import math
 import copy
 import marshal
+import compiler
 
 import pystepx.evolver 
 from pystepx.geneticoperators import selection
@@ -67,12 +68,20 @@ class DistributedEvolver(pystepx.evolver.Evolver):
         #self._oid_to_replace = [] # Store the list of oid of leaving trees
                                  # needed to store new ones
 
-    def select_and_remove_individuals(self, prob):
+    def select_and_remove_individuals(self, prob, compiled_objects=True):
         """
         Select several individuals from the population, remove them from the
         island and returns them.
 
+        Instead of returning the object, we return a compiled version in order
+        to decrease memory usage.
+
         :param prob: probability of selection of individuals for migration
+        :param compiled_objects: if True, instead of returning the list of trees,
+                                 return a compiled version of the list of trees.
+
+
+        Return the tree objects and the number of trees to move
         """
 
         migration_size = max(2, math.ceil(self._popsize * prob))
@@ -112,17 +121,30 @@ class DistributedEvolver(pystepx.evolver.Evolver):
             self._con.execute("DELETE FROM %s WHERE o_id=%d;" % (self._tablename[-1], o_id))
 
         self._con.commit()
-        return trees
 
-    def add_new_trees(self, trees):
+
+
+        if compiled_objects:
+            return compiler.compile(str(trees), '<string>', 'eval'), len(trees)
+        else:
+            return trees, len(trees)
+
+    def add_new_trees(self, trees, compiled_objects=True):
         """
         Import new individual from other islands.
         Do not compute again their threshold.
 
         :param trees: set of trees to import
+        :param compiled_objects: if True, instead of getting the list of trees,
+                                 get a compiled version of the list of trees.
+
         """
         #assert len(self._oid_to_repace) == len(trees), \
         #        "You must have as well as emigrant as imigrants"
+
+
+        if compiled_objects:
+            trees = eval(trees)
 
         for tree in trees:
             self._popwriter.add_new_individual(tree, self._tablename[-1])
