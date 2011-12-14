@@ -45,7 +45,7 @@ def main():
 
     Launch  the set of tutorials
     """
-    logging.basicConfig(level=logging.debug)
+    logging.basicConfig(level=logging.DEBUG)
 
     logging.info('Launch tutorial 1 islands')
     t = Tutorial1Island()
