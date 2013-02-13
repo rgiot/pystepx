@@ -1,3 +1,20 @@
+Unofficial fork of the pystep library: http://pystep.sourceforge.net/
+
+I have modified the library some years ago in order to:
+
+  * allow different types of evaluation of the trees
+  * use islands
+
+and probably other things.
+
+I do not know if I will add other patches or if it works with new python libraries
+
+Romain Giot
+
+---
+
+
+
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -35,7 +52,7 @@ There has been a lot of improvement going on since the first version:
 
 - It is now possible to specify what happens after the system has tried 100 times to produced rules-compliant offsprings using crossover but has failed (this might happens if we use a lot of constraining rules). Either we accept the unfit offsprings with Substitute_Mutation=0 or we substitute them with a mutated tree by setting Substitute_Mutation=1.
 
-- The parameters of the tournament selection are integrated in the main function that calls the evolutionary run. 
+- The parameters of the tournament selection are integrated in the main function that calls the evolutionary run.ï¿½
 
 - Code for crossover and mutation is now simplified and clearer. 
 
