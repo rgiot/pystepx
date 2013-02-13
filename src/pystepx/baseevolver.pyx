@@ -489,6 +489,10 @@ cdef class BaseEvolver(object):
         :param tablename2: name of the database table of the next generation
 
         """
+        logging.info('Apply selection and evolution of the population')
+        logging.info('Popsize %d' % popsize)
+        logging.info('tournament size %d' % size)
+
         cdef int crossover_size, mutation_size, reproduction_size
         cdef int i
         cdef np.ndarray db_list, reprod, cross, mut
@@ -512,11 +516,16 @@ cdef class BaseEvolver(object):
         # then select parents for mutation
         logging.info('Select for reproduction')
         selected  = selection.SelectDBSeveralFittest(   int(reproduction_size), db_list)
+
         logging.info('Apply reproduction')
         self._do_reproduction_for(selected, tablename, tablename2)
 
         # Apply cross over
         logging.info('Apply cross-over')
+        logging.info('%d individuals to generate and select them in a '
+                     'trournament of  %d individuals'
+                     ' in a population of %d individuals' % \
+                        (int(crossover_size), size, len(db_list)))
         selected = selection.TournamentSelectDBSeveral(
                       int(crossover_size),
                       size,

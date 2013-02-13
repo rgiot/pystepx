@@ -239,15 +239,17 @@ cdef np.ndarray _get_weight(int size, float prob_selection):
 
     return _weight_cache[ (size, prob_selection)]
 
-cpdef np.ndarray TournamentSelectDBSeveral(int nb_outputs, 
-        int size, 
-        float prob_selection, 
+
+cpdef np.ndarray TournamentSelectDBSeveral(
+        int nb_outputs,
+        int size,
+        float prob_selection,
         np.ndarray db_list,
-            unique=False):
+        unique=False):
     """
     Select several individuals from a database using Tournament selection
 
-   :param nb_outputs: repeat the tournament selection nb_outputs times, to
+    :param nb_outputs: repeat the tournament selection nb_outputs times, to
     return a list nb_outputs selected individuals
     :param size: number of individual choosen at random from the population
     :param prob_selection: prob of selecting the fittest of the group
@@ -257,7 +259,9 @@ cpdef np.ndarray TournamentSelectDBSeveral(int nb_outputs,
     :return: return a list nb_outputs of references of individuals selected by
     tournament
     """
-    
+    assert len(db_list) >= size, \
+            "You want to select %d individuals in a list of %d" % (size, len(db_list))
+
     cdef np.ndarray selection_result = np.array([])
 
     #weights
@@ -270,6 +274,7 @@ cpdef np.ndarray TournamentSelectDBSeveral(int nb_outputs,
 
     while i < nb_outputs:
         #Get size random samples ordered by fitness
+        print size, len(db_list)
         ref_sample = random.sample(db_list, size)
         ref_sample = sorted(ref_sample, key=operator.itemgetter(1))
         #assert len(ref_sample) == size

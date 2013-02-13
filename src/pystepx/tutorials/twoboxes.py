@@ -64,7 +64,8 @@ terminals = {
 
 
 #Compute the result
-attended = terminals['L0']*terminals['W0']*terminals['H0'] - terminals['L1']*terminals['W1']*terminals['H1'] 
+attended =   terminals['L0']*terminals['W0']*terminals['H0'] \
+             - terminals['L1']*terminals['W1']*terminals['H1'] 
 
 
 def change_fitness_case():
@@ -97,11 +98,10 @@ def fitness_function(tree):
     """
 
     global fte
-    
+
     compiled_tree = fte.compile_tree(tree, one_input_set=False)
     values = eval(compiled_tree, None, {'self': fte}) #the tree is evaluated only one time (inputs are arrays)
 
-    
     res = np.sum(np.abs(values - attended))
 
     del values
@@ -134,7 +134,7 @@ tree_rules = {
 
 #Parameters
 evolve = evolver.Evolver( \
-        popsize=10, #16000,
+        popsize=100, #16000,
         min_depth=6, #6
         max_depth=17, #17
         max_nb_runs=50,
@@ -162,7 +162,7 @@ gp_engine.set_fitness_function(fitness_function)
 
 def main():
     logging.basicConfig(level=logging.INFO)
-    
+
     gen = gp_engine.sequentially_evolve()
     gen.next()
 
