@@ -8,7 +8,7 @@ Do not use the ADF.
 We must find a function computing the difference of
 volume between two boxes.
 
-L0, W0 and H0 contains the information about box 0.
+L0, W0 and H0 contain the information about box 0.
 In order to evaluate the trees only one time, these variables
 do not hold single values, but an array (one line per example).
 Same thing for L1, W1, H1.
